@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Basic README-style markdown formatting */
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  font-weight: 600;
+  margin-top: 1.4em;
+  margin-bottom: 0.4em;
+}
+
+.markdown-body h1 {
+  font-size: 1.6rem;
+}
+
+.markdown-body h2 {
+  font-size: 1.3rem;
+}
+
+.markdown-body h3 {
+  font-size: 1.1rem;
+}
+
+.markdown-body p {
+  margin: 0.5em 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0.6em 0 0.6em 1.25em;
+  padding-left: 1em;
+}
+
+.markdown-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.9em;
+  background-color: rgba(15, 23, 42, 0.04);
+  padding: 0.15em 0.35em;
+  border-radius: 0.3rem;
+}
+
+.markdown-body pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 0.9em;
+  background-color: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  padding: 0.9rem 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 0.9em 0;
+}
+
+.markdown-body pre code {
+  background: transparent;
+  padding: 0;
+}
