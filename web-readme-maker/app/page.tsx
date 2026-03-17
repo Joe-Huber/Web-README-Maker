@@ -28,6 +28,29 @@ function rehypeStripComments() {
   };
 }
 
+function rehypeFixReactDOMProps() {
+  return function transformer(tree: HastNode) {
+    const visit = (node: HastNode) => {
+      if (!node) return;
+
+      if (node.type === "element") {
+        const props = node.properties as Record<string, unknown> | undefined;
+        if (props && "vAlign" in props) {
+          // React warns on `vAlign`, but will pass-through lowercase `valign`.
+          props.valign = props.vAlign;
+          delete props.vAlign;
+        }
+      }
+
+      if (Array.isArray(node.children)) {
+        for (const child of node.children) visit(child);
+      }
+    };
+
+    visit(tree);
+  };
+}
+
 const DEFAULT_MARKDOWN = `# My Awesome Project
 
 Short description of what this project does and who it's for.
@@ -103,7 +126,30 @@ export default function Home() {
             <div className="flex-1 overflow-auto px-4 sm:px-6 py-4 text-sm sm:text-[15px] leading-relaxed text-zinc-900 dark:text-zinc-50 markdown-body">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw, rehypeStripComments, rehypeSanitize]}
+                rehypePlugins={[
+                  rehypeRaw,
+                  rehypeStripComments,
+                  rehypeSanitize,
+                  rehypeFixReactDOMProps,
+                ]}
+                components={{
+                  td: ({ ...props }) => {
+                    const anyProps = props as Record<string, unknown>;
+                    if ("vAlign" in anyProps) {
+                      anyProps.valign = anyProps.vAlign;
+                      delete anyProps.vAlign;
+                    }
+                    return <td {...anyProps} />;
+                  },
+                  th: ({ ...props }) => {
+                    const anyProps = props as Record<string, unknown>;
+                    if ("vAlign" in anyProps) {
+                      anyProps.valign = anyProps.vAlign;
+                      delete anyProps.vAlign;
+                    }
+                    return <th {...anyProps} />;
+                  },
+                }}
               >
                 {markdown}
               </ReactMarkdown>
