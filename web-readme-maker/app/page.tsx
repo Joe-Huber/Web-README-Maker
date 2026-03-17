@@ -3,6 +3,30 @@
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
+
+type HastNode = {
+  type?: string;
+  children?: HastNode[];
+  [key: string]: unknown;
+};
+
+function rehypeStripComments() {
+  return function transformer(tree: HastNode) {
+    const strip = (node: HastNode) => {
+      if (!node || !Array.isArray(node.children)) return;
+      node.children = node.children
+        .filter((child) => child?.type !== "comment")
+        .map((child) => {
+          strip(child);
+          return child;
+        });
+    };
+
+    strip(tree);
+  };
+}
 
 const DEFAULT_MARKDOWN = `# My Awesome Project
 
@@ -77,7 +101,10 @@ export default function Home() {
               </span>
             </div>
             <div className="flex-1 overflow-auto px-4 sm:px-6 py-4 text-sm sm:text-[15px] leading-relaxed text-zinc-900 dark:text-zinc-50 markdown-body">
-              <ReactMarkdown remarkPlugins={[remarkGfm]} skipHtml>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw, rehypeStripComments, rehypeSanitize]}
+              >
                 {markdown}
               </ReactMarkdown>
             </div>
