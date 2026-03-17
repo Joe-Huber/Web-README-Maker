@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const DEFAULT_MARKDOWN = `# My Awesome Project
 
@@ -76,7 +77,9 @@ export default function Home() {
               </span>
             </div>
             <div className="flex-1 overflow-auto px-4 sm:px-6 py-4 text-sm sm:text-[15px] leading-relaxed text-zinc-900 dark:text-zinc-50 markdown-body">
-              <ReactMarkdown>{markdown}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]} skipHtml>
+                {markdown}
+              </ReactMarkdown>
             </div>
           </div>
         </section>
