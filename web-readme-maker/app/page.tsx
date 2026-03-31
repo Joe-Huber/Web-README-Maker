@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import rehypeSanitize from "rehype-sanitize";
+import { BadgeToolbox } from "./components/BadgeToolbox";
 
 type HastNode = {
   type?: string;
@@ -72,6 +73,35 @@ Describe how to use your project here.
 
 export default function Home() {
   const [markdown, setMarkdown] = useState<string>(DEFAULT_MARKDOWN);
+  const [toolboxOpen, setToolboxOpen] = useState<boolean>(false);
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const insertAtCursor = (snippet: string) => {
+    const el = textareaRef.current;
+    if (!el) {
+      setMarkdown((prev) => (prev ? `${prev}\n${snippet}\n` : `${snippet}\n`));
+      return;
+    }
+
+    const start = el.selectionStart ?? markdown.length;
+    const end = el.selectionEnd ?? markdown.length;
+    const before = markdown.slice(0, start);
+    const after = markdown.slice(end);
+
+    const needsLeadingNewline = before.length > 0 && !before.endsWith("\n");
+    const needsTrailingNewline = after.length > 0 && !after.startsWith("\n");
+    const insertText =
+      (needsLeadingNewline ? "\n" : "") + snippet + (needsTrailingNewline ? "\n" : "\n");
+
+    const next = before + insertText + after;
+    const nextCursor = (before + insertText).length;
+
+    setMarkdown(next);
+    requestAnimationFrame(() => {
+      el.focus();
+      el.setSelectionRange(nextCursor, nextCursor);
+    });
+  };
 
   return (
     <div className="min-h-screen bg-zinc-100 dark:bg-black flex items-center justify-center px-4 py-8">
@@ -88,9 +118,9 @@ export default function Home() {
           <button
             type="button"
             className="inline-flex items-center gap-2 rounded-full border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 px-3 py-1.5 text-xs sm:text-sm font-medium text-zinc-800 dark:text-zinc-100 shadow-sm hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            onClick={() => setToolboxOpen(true)}
           >
-            {/* Placeholder for future badge toolbox trigger */}
-            Badge toolbox (soon)
+            Badge toolbox
           </button>
         </header>
 
@@ -106,6 +136,7 @@ export default function Home() {
               </span>
             </div>
             <textarea
+              ref={textareaRef}
               className="flex-1 resize-none bg-transparent px-4 sm:px-6 py-4 text-sm sm:text-[15px] leading-relaxed font-mono text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus-visible:outline-none"
               value={markdown}
               onChange={(event) => setMarkdown(event.target.value)}
@@ -157,6 +188,15 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      <BadgeToolbox
+        open={toolboxOpen}
+        onClose={() => setToolboxOpen(false)}
+        onInsert={(snippet) => {
+          insertAtCursor(snippet);
+          setToolboxOpen(false);
+        }}
+      />
     </div>
   );
 }
