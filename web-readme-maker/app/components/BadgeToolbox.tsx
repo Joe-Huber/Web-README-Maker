@@ -40,6 +40,14 @@ type Tool = {
   label: string;
   template: string;
   requires?: Array<"username" | "repo">;
+  options?: {
+    color?: {
+      label: string;
+      placeholder: string;
+      values: string[];
+      defaultValue: string;
+    };
+  };
 };
 
 function fillTemplate(
@@ -59,6 +67,30 @@ function fillTemplate(
     .replaceAll("REPO-URL", repoUrl);
 }
 
+function applyToolOptions(template: string, selected: { color?: string }, tool: Tool) {
+  let out = template;
+  const colorOpt = tool.options?.color;
+  if (colorOpt) {
+    out = out.replaceAll(colorOpt.placeholder, selected.color ?? colorOpt.defaultValue);
+  }
+  return out;
+}
+
+const COLOR_SWATCH_CLASSES: Record<string, string> = {
+  pink: "bg-pink-500",
+  purple: "bg-purple-600",
+  yellow: "bg-yellow-400",
+  red: "bg-red-500",
+  green: "bg-green-500",
+  blue: "bg-blue-500",
+  teal: "bg-teal-500",
+  magenta: "bg-fuchsia-600",
+  darkgreen: "bg-emerald-800",
+  lightgreen: "bg-lime-400",
+  orange: "bg-orange-500",
+  violet: "bg-violet-600",
+};
+
 const SECTION_DEFS: Array<{
   id: string;
   title: string;
@@ -72,7 +104,28 @@ const SECTION_DEFS: Array<{
         id: "license-mit",
         label: "License (MIT)",
         template:
-          "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+          "[![License: MIT](https://img.shields.io/badge/License-MIT-COLOR.svg)](https://opensource.org/licenses/MIT)",
+        options: {
+          color: {
+            label: "Color",
+            placeholder: "COLOR",
+            values: [
+              "pink",
+              "purple",
+              "yellow",
+              "red",
+              "green",
+              "blue",
+              "teal",
+              "magenta",
+              "darkgreen",
+              "lightgreen",
+              "orange",
+              "violet",
+            ],
+            defaultValue: "yellow",
+          },
+        },
       },
       {
         id: "stars",
@@ -145,6 +198,7 @@ export function BadgeToolbox(props: {
 }) {
   const [username, setUsername] = useState<string>("");
   const [repoInput, setRepoInput] = useState<string>("");
+  const [toolOptionSelections, setToolOptionSelections] = useState<Record<string, { color?: string }>>({});
 
   const repo = useMemo(() => parseRepoInput(repoInput), [repoInput]);
   const [activeSectionId, setActiveSectionId] = useState<string>(SECTION_DEFS[0]?.id ?? "repo-badges");
@@ -257,7 +311,9 @@ export function BadgeToolbox(props: {
                 const needsRepo = tool.requires?.includes("repo") ?? false;
                 const disabled = needsRepo && !repo;
                 const context: "repo" | "profile" = activeSectionId === "repo-badges" ? "repo" : "profile";
-                const snippet = fillTemplate(tool.template, { username, repo, context });
+                const base = fillTemplate(tool.template, { username, repo, context });
+                const selection = toolOptionSelections[tool.id] ?? {};
+                const snippet = applyToolOptions(base, selection, tool);
 
                 return (
                   <button
@@ -273,7 +329,44 @@ export function BadgeToolbox(props: {
                     ].join(" ")}
                   >
                     <div className="text-sm font-semibold">{tool.label}</div>
-                    <div className="mt-1 text-[11px] text-zinc-600 dark:text-zinc-400 font-mono break-all">
+
+                    {tool.options?.color ? (
+                      <div className="mt-2 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/60 dark:bg-zinc-950/40 p-2">
+                        <div className="text-[11px] font-semibold text-zinc-600 dark:text-zinc-400">
+                          {tool.options.color.label}
+                        </div>
+                        <div className="mt-1 flex flex-wrap gap-1.5">
+                          {tool.options.color.values.map((value) => {
+                            const selected = (selection.color ?? tool.options?.color?.defaultValue) === value;
+                            const swatchClass = COLOR_SWATCH_CLASSES[value] ?? "bg-zinc-400";
+                            return (
+                              <button
+                                key={value}
+                                type="button"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setToolOptionSelections((prev) => ({
+                                    ...prev,
+                                    [tool.id]: { ...(prev[tool.id] ?? {}), color: value },
+                                  }));
+                                }}
+                                aria-label={`Set ${tool.label} color to ${value}`}
+                                className={[
+                                  "h-6 w-6 rounded-md border transition-colors",
+                                  swatchClass,
+                                  selected
+                                    ? "border-zinc-900 dark:border-zinc-50 ring-2 ring-zinc-900/20 dark:ring-zinc-50/20"
+                                    : "border-zinc-200/80 dark:border-zinc-800/80 hover:border-zinc-400 dark:hover:border-zinc-600",
+                                ].join(" ")}
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : null}
+
+                    <div className="mt-2 text-[11px] text-zinc-600 dark:text-zinc-400 font-mono break-all">
                       {snippet}
                     </div>
                     {disabled ? (
