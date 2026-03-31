@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 type RepoRef = {
   owner: string;
   repo: string;
+  url: string;
 };
 
 function parseRepoInput(input: string): RepoRef | null {
@@ -13,7 +14,11 @@ function parseRepoInput(input: string): RepoRef | null {
 
   // Accept: owner/repo
   const simple = raw.match(/^([\w.-]+)\/([\w.-]+)$/);
-  if (simple) return { owner: simple[1], repo: simple[2] };
+  if (simple) {
+    const owner = simple[1];
+    const repo = simple[2];
+    return { owner, repo, url: `https://github.com/${owner}/${repo}` };
+  }
 
   // Accept: https://github.com/owner/repo(.git)?(/...)
   try {
@@ -24,7 +29,7 @@ function parseRepoInput(input: string): RepoRef | null {
     const owner = parts[0];
     const repo = parts[1].replace(/\.git$/i, "");
     if (!owner || !repo) return null;
-    return { owner, repo };
+    return { owner, repo, url: `https://github.com/${owner}/${repo}` };
   } catch {
     return null;
   }
@@ -37,14 +42,21 @@ type Tool = {
   requires?: Array<"username" | "repo">;
 };
 
-function fillTemplate(template: string, args: { username: string; repo: RepoRef | null }) {
-  const username = args.username.trim();
-  const owner = args.repo?.owner ?? "USERNAME";
-  const repo = args.repo?.repo ?? "REPO-NAME";
+function fillTemplate(
+  template: string,
+  args: { username: string; repo: RepoRef | null; context: "repo" | "profile" },
+) {
+  const profileUsername = args.username.trim();
+  const repoOwner = args.repo?.owner ?? "USERNAME";
+  const repoName = args.repo?.repo ?? "REPO-NAME";
+  const repoUrl = args.repo?.url ?? "https://github.com/USERNAME/REPO-NAME";
+
+  const usernameForTemplate = args.context === "repo" ? repoOwner : profileUsername || "USERNAME";
   return template
-    .replaceAll("USERNAME", username || "USERNAME")
-    .replaceAll("REPO-NAME", repo || "REPO-NAME")
-    .replaceAll("OWNER", owner || "OWNER");
+    .replaceAll("USERNAME", usernameForTemplate)
+    .replaceAll("OWNER", repoOwner || "OWNER")
+    .replaceAll("REPO-NAME", repoName || "REPO-NAME")
+    .replaceAll("REPO-URL", repoUrl);
 }
 
 const SECTION_DEFS: Array<{
@@ -244,7 +256,8 @@ export function BadgeToolbox(props: {
               {(activeSection?.tools ?? []).map((tool) => {
                 const needsRepo = tool.requires?.includes("repo") ?? false;
                 const disabled = needsRepo && !repo;
-                const snippet = fillTemplate(tool.template, { username, repo });
+                const context: "repo" | "profile" = activeSectionId === "repo-badges" ? "repo" : "profile";
+                const snippet = fillTemplate(tool.template, { username, repo, context });
 
                 return (
                   <button
