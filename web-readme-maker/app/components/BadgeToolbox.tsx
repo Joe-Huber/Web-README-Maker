@@ -331,38 +331,33 @@ export function BadgeToolbox(props: {
                     <div className="text-sm font-semibold">{tool.label}</div>
 
                     {tool.options?.color ? (
-                      <div className="mt-2 rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/60 dark:bg-zinc-950/40 p-2">
-                        <div className="text-[11px] font-semibold text-zinc-600 dark:text-zinc-400">
-                          {tool.options.color.label}
-                        </div>
-                        <div className="mt-1 flex flex-wrap gap-1.5">
-                          {tool.options.color.values.map((value) => {
-                            const selected = (selection.color ?? tool.options?.color?.defaultValue) === value;
-                            const swatchClass = COLOR_SWATCH_CLASSES[value] ?? "bg-zinc-400";
-                            return (
-                              <button
-                                key={value}
-                                type="button"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setToolOptionSelections((prev) => ({
-                                    ...prev,
-                                    [tool.id]: { ...(prev[tool.id] ?? {}), color: value },
-                                  }));
-                                }}
-                                aria-label={`Set ${tool.label} color to ${value}`}
-                                className={[
-                                  "h-6 w-6 rounded-md border transition-colors",
-                                  swatchClass,
-                                  selected
-                                    ? "border-zinc-900 dark:border-zinc-50 ring-2 ring-zinc-900/20 dark:ring-zinc-50/20"
-                                    : "border-zinc-200/80 dark:border-zinc-800/80 hover:border-zinc-400 dark:hover:border-zinc-600",
-                                ].join(" ")}
-                              />
-                            );
-                          })}
-                        </div>
+                      <div className="mt-2 flex flex-wrap gap-1.5">
+                        {tool.options.color.values.map((value) => {
+                          const selected = (selection.color ?? tool.options?.color?.defaultValue) === value;
+                          const swatchClass = COLOR_SWATCH_CLASSES[value] ?? "bg-zinc-400";
+                          return (
+                            <button
+                              key={value}
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setToolOptionSelections((prev) => ({
+                                  ...prev,
+                                  [tool.id]: { ...(prev[tool.id] ?? {}), color: value },
+                                }));
+                              }}
+                              aria-label={`Set ${tool.label} color to ${value}`}
+                              className={[
+                                "h-6 w-6 rounded-md border transition-colors",
+                                swatchClass,
+                                selected
+                                  ? "border-zinc-900 dark:border-zinc-50 ring-2 ring-zinc-900/20 dark:ring-zinc-50/20"
+                                  : "border-zinc-200/80 dark:border-zinc-800/80 hover:border-zinc-400 dark:hover:border-zinc-600",
+                              ].join(" ")}
+                            />
+                          );
+                        })}
                       </div>
                     ) : null}
 
