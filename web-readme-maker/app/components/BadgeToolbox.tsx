@@ -316,11 +316,22 @@ export function BadgeToolbox(props: {
                 const snippet = applyToolOptions(base, selection, tool);
 
                 return (
-                  <button
+                  <div
                     key={tool.id}
-                    type="button"
-                    disabled={disabled}
-                    onClick={() => props.onInsert(snippet)}
+                    role="button"
+                    tabIndex={disabled ? -1 : 0}
+                    aria-disabled={disabled}
+                    onClick={() => {
+                      if (disabled) return;
+                      props.onInsert(snippet);
+                    }}
+                    onKeyDown={(e) => {
+                      if (disabled) return;
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        props.onInsert(snippet);
+                      }
+                    }}
                     className={[
                       "rounded-2xl border px-4 py-3 text-left transition-colors",
                       disabled
@@ -367,7 +378,7 @@ export function BadgeToolbox(props: {
                     {disabled ? (
                       <div className="mt-2 text-[11px] text-zinc-500">Add a repo to enable.</div>
                     ) : null}
-                  </button>
+                  </div>
                 );
               })}
             </div>
