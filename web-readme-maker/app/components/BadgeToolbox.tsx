@@ -64,6 +64,11 @@ type Tool = {
       values: string[];
       defaultValue: string;
     };
+    socialUsernameInput?: {
+      label: string;
+      placeholder: string;
+      defaultValue: string;
+    };
   };
   workflow?: string; // Added workflow property
 };
@@ -103,7 +108,7 @@ const COLOR_HEX_MAP: Record<string, string> = {
 
 function applyToolOptions(
   template: string,
-  selected: { color?: string; link?: string; theme?: string },
+  selected: { color?: string; link?: string; theme?: string; socialUsername?: string },
   tool: Tool,
 ) {
   let out = template;
@@ -125,6 +130,11 @@ function applyToolOptions(
   const themeOpt = tool.options?.theme;
   if (themeOpt) {
     out = out.replaceAll(themeOpt.placeholder, selected.theme ?? themeOpt.defaultValue);
+  }
+  const socialUsernameInputOpt = tool.options?.socialUsernameInput;
+  if (socialUsernameInputOpt) {
+    const socialUsernameValue = selected.socialUsername ?? socialUsernameInputOpt.defaultValue;
+    out = out.replaceAll(socialUsernameInputOpt.placeholder, socialUsernameValue);
   }
   return out;
 }
@@ -408,36 +418,71 @@ const SECTION_DEFS: Array<{
         id: "twitter",
         label: "Twitter",
         template:
-          "[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/USERNAME)",
+          "[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/SOCIAL_USERNAME)",
         requires: ["username"],
+        options: {
+          socialUsernameInput: {
+            label: "Twitter Username",
+            placeholder: "SOCIAL_USERNAME",
+            defaultValue: "USERNAME",
+          },
+        },
       },
       {
         id: "linkedin",
         label: "LinkedIn",
         template:
-          "[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/USERNAME/)",
+          "[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/SOCIAL_USERNAME/)",
         requires: ["username"],
+        options: {
+          socialUsernameInput: {
+            label: "LinkedIn Username",
+            placeholder: "SOCIAL_USERNAME",
+            defaultValue: "USERNAME",
+          },
+        },
       },
       {
         id: "youtube",
         label: "YouTube",
         template:
-          "[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/c/USERNAME)",
+          "[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/c/SOCIAL_USERNAME)",
         requires: ["username"],
+        options: {
+          socialUsernameInput: {
+            label: "YouTube Channel Name",
+            placeholder: "SOCIAL_USERNAME",
+            defaultValue: "USERNAME",
+          },
+        },
       },
       {
         id: "instagram",
         label: "Instagram",
         template:
-          "[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/USERNAME/)",
+          "[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/SOCIAL_USERNAME/)",
         requires: ["username"],
+        options: {
+          socialUsernameInput: {
+            label: "Instagram Username",
+            placeholder: "SOCIAL_USERNAME",
+            defaultValue: "USERNAME",
+          },
+        },
       },
       {
         id: "facebook",
         label: "Facebook",
         template:
-          "[![Facebook](https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/USERNAME/)",
+          "[![Facebook](https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/SOCIAL_USERNAME/)",
         requires: ["username"],
+        options: {
+          socialUsernameInput: {
+            label: "Facebook Username",
+            placeholder: "SOCIAL_USERNAME",
+            defaultValue: "USERNAME",
+          },
+        },
       },
       {
         id: "sponsor",
@@ -916,7 +961,7 @@ export function BadgeToolbox(props: {
   const [username, setUsername] = useState<string>("");
   const [repoInput, setRepoInput] = useState<string>("");
   const [toolOptionSelections, setToolOptionSelections] = useState<
-    Record<string, { color?: string; link?: string; theme?: string }>
+    Record<string, { color?: string; link?: string; theme?: string; socialUsername?: string }>
   >({});
 
   const repo = useMemo(() => parseRepoInput(repoInput), [repoInput]);
@@ -1162,6 +1207,25 @@ export function BadgeToolbox(props: {
                             </option>
                           ))}
                         </select>
+                      </div>
+                    ) : null}
+
+                    {tool.options?.socialUsernameInput ? (
+                      <div className="mt-2">
+                        <input
+                          className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-700"
+                          value={selection.socialUsername ?? tool.options.socialUsernameInput.defaultValue}
+                          onClick={(e) => e.stopPropagation()}
+                          onKeyDown={(e) => e.stopPropagation()}
+                          onChange={(e) => {
+                            const next = e.target.value;
+                            setToolOptionSelections((prev) => ({
+                              ...prev,
+                              [tool.id]: { ...(prev[tool.id] ?? {}), socialUsername: next },
+                            }));
+                          }}
+                          placeholder={tool.options.socialUsernameInput.defaultValue}
+                        />
                       </div>
                     ) : null}
 
