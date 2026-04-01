@@ -58,6 +58,12 @@ type Tool = {
       defaultValue: string;
       inputPlaceholder: string;
     };
+    theme?: {
+      label: string;
+      placeholder: string;
+      values: string[];
+      defaultValue: string;
+    };
   };
 };
 
@@ -94,7 +100,11 @@ const COLOR_HEX_MAP: Record<string, string> = {
   blueviolet: "8A2BE2",
 };
 
-function applyToolOptions(template: string, selected: { color?: string; link?: string }, tool: Tool) {
+function applyToolOptions(
+  template: string,
+  selected: { color?: string; link?: string; theme?: string },
+  tool: Tool,
+) {
   let out = template;
   const colorOpt = tool.options?.color;
   if (colorOpt) {
@@ -110,6 +120,10 @@ function applyToolOptions(template: string, selected: { color?: string; link?: s
   const linkOpt = tool.options?.link;
   if (linkOpt) {
     out = out.replaceAll(linkOpt.placeholder, selected.link?.trim() || linkOpt.defaultValue);
+  }
+  const themeOpt = tool.options?.theme;
+  if (themeOpt) {
+    out = out.replaceAll(themeOpt.placeholder, selected.theme ?? themeOpt.defaultValue);
   }
   return out;
 }
@@ -129,6 +143,83 @@ const COLOR_SWATCH_CLASSES: Record<string, string> = {
   violet: "bg-violet-600",
   blueviolet: "bg-[#8A2BE2]",
 };
+
+const THEMES = [
+  "default",
+  "transparent",
+  "shadow_red",
+  "shadow_green",
+  "shadow_blue",
+  "dark",
+  "radical",
+  "merko",
+  "gruvbox",
+  "gruvbox_light",
+  "tokyonight",
+  "onedark",
+  "cobalt",
+  "synthwave",
+  "highcontrast",
+  "dracula",
+  "prussian",
+  "monokai",
+  "vue",
+  "vue-dark",
+  "shades-of-purple",
+  "nightowl",
+  "buefy",
+  "blue-green",
+  "algolia",
+  "great-gatsby",
+  "darcula",
+  "bear",
+  "solarized-dark",
+  "solarized-light",
+  "chartreuse-dark",
+  "nord",
+  "gotham",
+  "material-palenight",
+  "graywhite",
+  "vision-friendly-dark",
+  "ayu-mirage",
+  "midnight-purple",
+  "calm",
+  "flag-india",
+  "omni",
+  "react",
+  "jolly",
+  "maroongold",
+  "yeblu",
+  "blueberry",
+  "slateorange",
+  "kacho_ga",
+  "outrun",
+  "ocean_dark",
+  "city_lights",
+  "github_dark",
+  "github_dark_dimmed",
+  "discord_old_blurple",
+  "aura_dark",
+  "panda",
+  "noctis_minimus",
+  "cobalt2",
+  "swift",
+  "aura",
+  "apprentice",
+  "moltack",
+  "codeSTACKr",
+  "rose_pine",
+  "catppuccin_latte",
+  "catppuccin_mocha",
+  "date_night",
+  "one_dark_pro",
+  "rose",
+  "holi",
+  "neon",
+  "blue_navy",
+  "calm_pink",
+  "ambient_gradient",
+];
 
 const SECTION_DEFS: Array<{
   id: string;
@@ -279,7 +370,173 @@ const SECTION_DEFS: Array<{
       },
     ],
   },
-  { id: "profile-stats", title: "Profile stats", tools: [] },
+  {
+    id: "profile-stats",
+    title: "Profile stats",
+    tools: [
+      {
+        id: "github-stats",
+        label: "GitHub Stats",
+        template: "![GitHub Stats](https://github-stats-extended.vercel.app/api?username=USERNAME&theme=THEME)",
+        requires: ["username"],
+        options: {
+          theme: {
+            label: "Theme",
+            placeholder: "THEME",
+            values: [...new Set(THEMES)],
+            defaultValue: "buefy",
+          },
+        },
+      },
+      {
+        id: "top-langs",
+        label: "Top Languages",
+        template:
+          "![Top Languages](https://github-stats-extended.vercel.app/api/top-langs/?username=USERNAME&layout=compact&theme=THEME)",
+        requires: ["username"],
+        options: {
+          theme: {
+            label: "Theme",
+            placeholder: "THEME",
+            values: [...new Set(THEMES)],
+            defaultValue: "buefy",
+          },
+        },
+      },
+      {
+        id: "streak-stats",
+        label: "Streak Stats",
+        template: "![Streak Stats](https://streak-stats.demolab.com/?user=USERNAME&theme=THEME)",
+        requires: ["username"],
+        options: {
+          theme: {
+            label: "Theme",
+            placeholder: "THEME",
+            values: [...new Set(THEMES)],
+            defaultValue: "buefy",
+          },
+        },
+      },
+      {
+        id: "profile-trophy",
+        label: "Profile Trophy",
+        template:
+          "![Profile Trophy](https://github-profile-trophy-tawny.vercel.app/?username=USERNAME&theme=THEME&no-frame=true&row=1&margin-w=12)",
+        requires: ["username"],
+        options: {
+          theme: {
+            label: "Theme",
+            placeholder: "THEME",
+            values: [...new Set([
+              "flat",
+              "buddhism",
+              "onedark",
+              "gruvbox",
+              "nord",
+              "xcode",
+              "dracula",
+              "monokai",
+              "chalk",
+              "radical",
+              "merko",
+              "tokyonight",
+              "synthwave",
+              "highcontrast",
+            ])],
+            defaultValue: "flat",
+          },
+        },
+      },
+      {
+        id: "activity-graph",
+        label: "Activity Graph",
+        template:
+          "![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=USERNAME&theme=THEME&custom_title=Contribution%20Graph)",
+        requires: ["username"],
+        options: {
+          theme: {
+            label: "Theme",
+            placeholder: "THEME",
+            values: [...new Set([
+              "github",
+              "github-compact",
+              "react",
+              "react-dark",
+              "github-dark",
+              "gotham",
+              "rogue",
+              "xcode",
+              "redical",
+              "merko",
+              "gruvbox",
+              "gruvbox-light",
+              "tokyonight",
+              "onedark",
+              "synthwave",
+              "highcontrast",
+              "dracula",
+              "prussian",
+              "monokai",
+              "vue",
+              "vue-dark",
+              "shades-of-purple",
+              "nightowl",
+              "buefy",
+              "blue-green",
+              "algolia",
+              "great-gatsby",
+              "darcula",
+              "bear",
+              "solarized-dark",
+              "solarized-light",
+              "chartreuse-dark",
+              "nord",
+              "material-palenight",
+              "graywhite",
+              "vision-friendly-dark",
+              "ayu-mirage",
+              "midnight-purple",
+              "calm",
+              "flag-india",
+              "omni",
+              "jolly",
+              "maroongold",
+              "yeblu",
+              "blueberry",
+              "slateorange",
+              "kacho_ga",
+              "outrun",
+              "ocean_dark",
+              "city_lights",
+              "github_dark_dimmed",
+              "discord_old_blurple",
+              "aura_dark",
+              "panda",
+              "noctis_minimus",
+              "cobalt2",
+              "swift",
+              "aura",
+              "apprentice",
+              "moltack",
+              "codeSTACKr",
+              "rose_pine",
+              "catppuccin_latte",
+              "catppuccin_mocha",
+              "date_night",
+              "one_dark_pro",
+              "rose",
+              "holi",
+              "neon",
+              "blue_navy",
+              "calm_pink",
+              "ambient_gradient",
+            ])],
+            defaultValue: "github-compact",
+          },
+        },
+      },
+    ],
+  },
   { id: "profile-actions", title: "Profile Actions", tools: [] },
   { id: "tool-icons", title: "Tool Icons", tools: [] },
   { id: "aesthetic", title: "Asthetic Pieces", tools: [] },
@@ -293,7 +550,7 @@ export function BadgeToolbox(props: {
   const [username, setUsername] = useState<string>("");
   const [repoInput, setRepoInput] = useState<string>("");
   const [toolOptionSelections, setToolOptionSelections] = useState<
-    Record<string, { color?: string; link?: string }>
+    Record<string, { color?: string; link?: string; theme?: string }>
   >({});
 
   const repo = useMemo(() => parseRepoInput(repoInput), [repoInput]);
@@ -516,6 +773,29 @@ export function BadgeToolbox(props: {
                           }}
                           placeholder={tool.options.link.inputPlaceholder}
                         />
+                      </div>
+                    ) : null}
+
+                    {tool.options?.theme ? (
+                      <div className="mt-2">
+                        <select
+                          className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-700"
+                          value={selection.theme ?? tool.options.theme.defaultValue}
+                          onClick={(e) => e.stopPropagation()}
+                          onChange={(e) => {
+                            const next = e.target.value;
+                            setToolOptionSelections((prev) => ({
+                              ...prev,
+                              [tool.id]: { ...(prev[tool.id] ?? {}), theme: next },
+                            }));
+                          }}
+                        >
+                          {tool.options.theme.values.map((value) => (
+                            <option key={value} value={value}>
+                              {value}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     ) : null}
 
