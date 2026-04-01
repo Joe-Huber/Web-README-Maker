@@ -404,6 +404,48 @@ const SECTION_DEFS: Array<{
           },
         },
       },
+      {
+        id: "twitter",
+        label: "Twitter",
+        template:
+          "[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/USERNAME)",
+        requires: ["username"],
+      },
+      {
+        id: "linkedin",
+        label: "LinkedIn",
+        template:
+          "[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/USERNAME/)",
+        requires: ["username"],
+      },
+      {
+        id: "youtube",
+        label: "YouTube",
+        template:
+          "[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/c/USERNAME)",
+        requires: ["username"],
+      },
+      {
+        id: "instagram",
+        label: "Instagram",
+        template:
+          "[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/USERNAME/)",
+        requires: ["username"],
+      },
+      {
+        id: "facebook",
+        label: "Facebook",
+        template:
+          "[![Facebook](https://img.shields.io/badge/Facebook-1877F2?style=for-the-badge&logo=facebook&logoColor=white)](https://www.facebook.com/USERNAME/)",
+        requires: ["username"],
+      },
+      {
+        id: "sponsor",
+        label: "Sponsor",
+        template:
+          "[![Sponsor](https://img.shields.io/badge/Sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=white)](https://github.com/sponsors/USERNAME)",
+        requires: ["username"],
+      },
     ],
   },
   {
@@ -922,7 +964,7 @@ export function BadgeToolbox(props: {
                 className="mt-1 w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-700"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="e.g. user-name"
+                placeholder="e.g. jojohuber"
               />
             </label>
 
