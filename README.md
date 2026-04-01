@@ -14,14 +14,14 @@
 
 ## 🌟 Features
 
-### 🎨 **Live Markdown Editor**
+### 🎨 **Markdown Editor**
 - **Real-time preview** as you type your markdown
 - **Syntax-highlighted** editor for better readability
 - **Split-view layout** with editor on the left, live preview on the right
 - **GitHub-flavored markdown** (GFM) support including tables, strikethrough, and task lists
 - **HTML support** with sanitization for safe rendering
 
-### 🏷️ **Intelligent Badge Toolbox**
+### 🏷️ **Badge Toolbox**
 Generate beautiful, customizable badges with just a few clicks:
 
 #### Repository Badges
@@ -126,11 +126,6 @@ Generate beautiful, customizable badges with just a few clicks:
 - **rehype-raw** - Parse raw HTML in markdown
 - **rehype-sanitize** - Safe HTML sanitization
 - **github-markdown-css** - GitHub's markdown styles
-
-### Development Tools
-- **ESLint** - Code quality linting
-- **TypeScript** - Static type checking
-
 ---
 
 ## 📸 Screenshots
