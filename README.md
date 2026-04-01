@@ -135,11 +135,11 @@ Generate beautiful, customizable badges with just a few clicks:
 
 ## 📸 Screenshots
 
-> 🖼️ **[Screenshot Space - Editor View]**  
-> Show the main editor interface with split pane layout
+### Main Editor Interface
+![Web README Maker - Editor View](./docs/readme-images/Base-Default-Image.png)
 
-> 🖼️ **[Screenshot Space - Badge Toolbox]**  
-> Demonstrate the badge toolbox with various options
+### Badge Toolbox
+![Web README Maker - Badge Toolbox](./docs/readme-images/Badge-Toolbox.png)
 
 ---
 
@@ -231,7 +231,7 @@ Start using **Web README Maker** today and transform your project documentation.
 
 **[🚀 Launch Web README Maker](#)** | **[📖 Documentation](#)** | **[💬 Discussions](#)** | **[⭐ Star on GitHub](#)**
 
-Made with 💜
+Made with ??
 
 </div>
 
