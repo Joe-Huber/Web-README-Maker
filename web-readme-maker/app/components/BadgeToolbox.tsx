@@ -65,6 +65,7 @@ type Tool = {
       defaultValue: string;
     };
   };
+  workflow?: string; // Added workflow property
 };
 
 function fillTemplate(
@@ -537,7 +538,79 @@ const SECTION_DEFS: Array<{
       },
     ],
   },
-  { id: "profile-actions", title: "Profile Actions", tools: [] },
+  {
+    id: "profile-actions",
+    title: "Profile Actions",
+    tools: [
+      {
+        id: "top-followers",
+        label: "Top Followers",
+        template: "<!-- FOLLOWERS_LIST_START -->\n<!-- FOLLOWERS_LIST_END -->",
+        requires: ["username"],
+        workflow: `name: Update README with Top Followers
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs daily at midnight
+  workflow_dispatch:
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to push changes back to the repository
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Update README with most followed followers
+        uses: Joe-Huber/my-most-followed-followers@main # Or use a specific version like @v1
+        with:
+          GITHUB_USER_NAME: \${{ github.repository_owner }}
+          MAX_FOLLOWER_COUNT: 10 # Optional: specify the number of followers to show
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m "Automated README update" || exit 0
+          git push`,
+      },
+      {
+        id: "generate-snake",
+        label: "Generate Snake",
+        template: "<!--START_SECTION:activity-->\n<!--END_SECTION:activity-->",
+        requires: ["username"],
+        workflow: `name: Generate Snake
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: Platane/snk@v3
+        with:
+          github_user_name: \${{ github.repository_owner }}
+          outputs: |
+            dist/github-contribution-grid-snake.svg?color_snake=black&color_dots=#E6E6FA,#D8BFD8,#BA55D3,#9932CC,#4B0082
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark&color_snake=white&color_dots=#4B0082,#8A2BE2,#9932CC,#BA55D3,#DDA0DD
+      - uses: crazy-max/ghaction-github-pages@v2.1.3
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: \${{ secrets.GITHUB_TOKEN }}`,
+      },
+    ],
+  },
   { id: "tool-icons", title: "Tool Icons", tools: [] },
   { id: "aesthetic", title: "Asthetic Pieces", tools: [] },
 ];
@@ -760,7 +833,7 @@ export function BadgeToolbox(props: {
                     {tool.options?.link ? (
                       <div className="mt-2">
                         <input
-                          className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-700"
+                          className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-700"
                           value={selection.link ?? tool.options.link.defaultValue}
                           onClick={(e) => e.stopPropagation()}
                           onKeyDown={(e) => e.stopPropagation()}
@@ -779,7 +852,7 @@ export function BadgeToolbox(props: {
                     {tool.options?.theme ? (
                       <div className="mt-2">
                         <select
-                          className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-700"
+                          className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-700"
                           value={selection.theme ?? tool.options.theme.defaultValue}
                           onClick={(e) => e.stopPropagation()}
                           onChange={(e) => {
@@ -802,6 +875,18 @@ export function BadgeToolbox(props: {
                     <div className="mt-2 text-[11px] text-zinc-600 dark:text-zinc-400 font-mono break-all">
                       {snippet}
                     </div>
+                    {tool.workflow && (
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigator.clipboard.writeText(tool.workflow ?? "");
+                        }}
+                        className="mt-2 rounded-lg border border-zinc-300 dark:border-zinc-700 px-2.5 py-1.5 text-xs font-medium text-zinc-800 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+                      >
+                        Copy Workflow
+                      </button>
+                    )}
                     {disabled ? (
                       <div className="mt-2 text-[11px] text-zinc-500">Add a repo to enable.</div>
                     ) : null}
