@@ -308,18 +308,53 @@ const SECTION_DEFS: Array<{
         requires: ["repo"],
       },
       {
-        id: "marketplace",
-        label: "Marketplace badge example",
+        id: "contributors",
+        label: "Contributors",
         template:
-          "[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Marketplace-blue?logo=github)](MARKETPLACE-URL)",
-        options: {
-          link: {
-            label: "Link",
-            placeholder: "MARKETPLACE-URL",
-            defaultValue: "https://github.com/marketplace",
-            inputPlaceholder: "e.g. https://github.com/marketplace/actions/checkout",
-          },
-        },
+          "[![Contributors](https://img.shields.io/github/contributors/USERNAME/REPO-NAME)](https://github.com/USERNAME/REPO-NAME/graphs/contributors)",
+        requires: ["repo"],
+      },
+      {
+        id: "pull-requests",
+        label: "Pull Requests",
+        template:
+          "[![Pull Requests](https://img.shields.io/github/issues-pr/USERNAME/REPO-NAME)](https://github.com/USERNAME/REPO-NAME/pulls)",
+        requires: ["repo"],
+      },
+      {
+        id: "closed-pull-requests",
+        label: "Closed Pull Requests",
+        template:
+          "[![Closed Pull Requests](https://img.shields.io/github/issues-pr-closed/USERNAME/REPO-NAME)](https://github.com/USERNAME/REPO-NAME/pulls?q=is%3Apr+is%3Aclosed)",
+        requires: ["repo"],
+      },
+      {
+        id: "downloads",
+        label: "Downloads",
+        template:
+          "[![Downloads](https://img.shields.io/github/downloads/USERNAME/REPO-NAME/total)](https://github.com/USERNAME/REPO-NAME/releases)",
+        requires: ["repo"],
+      },
+      {
+        id: "repo-size",
+        label: "Repo Size",
+        template:
+          "[![Repo Size](https://img.shields.io/github/repo-size/USERNAME/REPO-NAME)](https://github.com/USERNAME/REPO-NAME)",
+        requires: ["repo"],
+      },
+      {
+        id: "watchers",
+        label: "Watchers",
+        template:
+          "[![Watchers](https://img.shields.io/github/watchers/USERNAME/REPO-NAME)](https://github.com/USERNAME/REPO-NAME/watchers)",
+        requires: ["repo"],
+      },
+      {
+        id: "license",
+        label: "License",
+        template:
+          "[![License](https://img.shields.io/github/license/USERNAME/REPO-NAME)](https://github.com/USERNAME/REPO-NAME/blob/main/LICENSE)",
+        requires: ["repo"],
       },
     ],
   },
