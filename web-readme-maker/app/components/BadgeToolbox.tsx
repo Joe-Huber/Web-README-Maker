@@ -47,6 +47,12 @@ type Tool = {
       values: string[];
       defaultValue: string;
     };
+    link?: {
+      label: string;
+      placeholder: string;
+      defaultValue: string;
+      inputPlaceholder: string;
+    };
   };
 };
 
@@ -67,11 +73,33 @@ function fillTemplate(
     .replaceAll("REPO-URL", repoUrl);
 }
 
-function applyToolOptions(template: string, selected: { color?: string }, tool: Tool) {
+const COLOR_HEX_MAP: Record<string, string> = {
+  pink: "ec4899",
+  purple: "8b5cf6",
+  yellow: "facc15",
+  red: "ef4444",
+  green: "22c55e",
+  blue: "3b82f6",
+  teal: "14b8a6",
+  magenta: "c026d3",
+  darkgreen: "065f46",
+  lightgreen: "a3e635",
+  orange: "f97316",
+  violet: "7c3aed",
+  blueviolet: "8A2BE2",
+};
+
+function applyToolOptions(template: string, selected: { color?: string; link?: string }, tool: Tool) {
   let out = template;
   const colorOpt = tool.options?.color;
   if (colorOpt) {
-    out = out.replaceAll(colorOpt.placeholder, selected.color ?? colorOpt.defaultValue);
+    const colorName = selected.color ?? colorOpt.defaultValue;
+    const colorValue = COLOR_HEX_MAP[colorName] ?? colorName;
+    out = out.replaceAll(colorOpt.placeholder, colorValue);
+  }
+  const linkOpt = tool.options?.link;
+  if (linkOpt) {
+    out = out.replaceAll(linkOpt.placeholder, selected.link?.trim() || linkOpt.defaultValue);
   }
   return out;
 }
@@ -89,6 +117,7 @@ const COLOR_SWATCH_CLASSES: Record<string, string> = {
   lightgreen: "bg-lime-400",
   orange: "bg-orange-500",
   violet: "bg-violet-600",
+  blueviolet: "bg-[#8A2BE2]",
 };
 
 const SECTION_DEFS: Array<{
@@ -180,11 +209,111 @@ const SECTION_DEFS: Array<{
         id: "marketplace",
         label: "Marketplace badge example",
         template:
-          "[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Marketplace-Most%20Followed%20Followers-blue?logo=github)](https://github.com/marketplace/actions/most-followed-followers-action)",
+          "[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Marketplace-blue?logo=github)](MARKETPLACE-URL)",
+        options: {
+          link: {
+            label: "Link",
+            placeholder: "MARKETPLACE-URL",
+            defaultValue: "https://github.com/marketplace",
+            inputPlaceholder: "e.g. https://github.com/marketplace/actions/checkout",
+          },
+        },
       },
     ],
   },
-  { id: "profile-badges", title: "Profile Badges", tools: [] },
+  {
+    id: "profile-badges",
+    title: "Profile Badges",
+    tools: [
+      {
+        id: "profile-views",
+        label: "Profile Views",
+        template:
+          "[![Profile Views](https://komarev.com/ghpvc/?username=USERNAME&style=for-the-badge&color=COLOR)](https://github.com/USERNAME)",
+        requires: ["username"],
+        options: {
+          color: {
+            label: "Color",
+            placeholder: "COLOR",
+            values: [
+              "blueviolet",
+              "pink",
+              "purple",
+              "yellow",
+              "red",
+              "green",
+              "blue",
+              "teal",
+              "magenta",
+              "darkgreen",
+              "lightgreen",
+              "orange",
+              "violet",
+            ],
+            defaultValue: "blueviolet",
+          },
+        },
+      },
+      {
+        id: "followers",
+        label: "Followers",
+        template:
+          "[![Followers](https://img.shields.io/github/followers/USERNAME?style=for-the-badge&color=COLOR)](https://github.com/USERNAME?tab=followers)",
+        requires: ["username"],
+        options: {
+          color: {
+            label: "Color",
+            placeholder: "COLOR",
+            values: [
+              "blueviolet",
+              "pink",
+              "purple",
+              "yellow",
+              "red",
+              "green",
+              "blue",
+              "teal",
+              "magenta",
+              "darkgreen",
+              "lightgreen",
+              "orange",
+              "violet",
+            ],
+            defaultValue: "blueviolet",
+          },
+        },
+      },
+      {
+        id: "stars",
+        label: "Stars",
+        template:
+          "[![Stars](https://img.shields.io/github/stars/USERNAME?style=for-the-badge&color=COLOR)](https://github.com/USERNAME?tab=stars)",
+        requires: ["username"],
+        options: {
+          color: {
+            label: "Color",
+            placeholder: "COLOR",
+            values: [
+              "blueviolet",
+              "pink",
+              "purple",
+              "yellow",
+              "red",
+              "green",
+              "blue",
+              "teal",
+              "magenta",
+              "darkgreen",
+              "lightgreen",
+              "orange",
+              "violet",
+            ],
+            defaultValue: "blueviolet",
+          },
+        },
+      },
+    ],
+  },
   { id: "profile-stats", title: "Profile stats", tools: [] },
   { id: "profile-actions", title: "Profile Actions", tools: [] },
   { id: "tool-icons", title: "Tool Icons", tools: [] },
@@ -198,7 +327,9 @@ export function BadgeToolbox(props: {
 }) {
   const [username, setUsername] = useState<string>("");
   const [repoInput, setRepoInput] = useState<string>("");
-  const [toolOptionSelections, setToolOptionSelections] = useState<Record<string, { color?: string }>>({});
+  const [toolOptionSelections, setToolOptionSelections] = useState<
+    Record<string, { color?: string; link?: string }>
+  >({});
 
   const repo = useMemo(() => parseRepoInput(repoInput), [repoInput]);
   const [activeSectionId, setActiveSectionId] = useState<string>(SECTION_DEFS[0]?.id ?? "repo-badges");
@@ -372,6 +503,25 @@ export function BadgeToolbox(props: {
                       </div>
                     ) : null}
 
+                    {tool.options?.link ? (
+                      <div className="mt-2">
+                        <input
+                          className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-700"
+                          value={selection.link ?? tool.options.link.defaultValue}
+                          onClick={(e) => e.stopPropagation()}
+                          onKeyDown={(e) => e.stopPropagation()}
+                          onChange={(e) => {
+                            const next = e.target.value;
+                            setToolOptionSelections((prev) => ({
+                              ...prev,
+                              [tool.id]: { ...(prev[tool.id] ?? {}), link: next },
+                            }));
+                          }}
+                          placeholder={tool.options.link.inputPlaceholder}
+                        />
+                      </div>
+                    ) : null}
+
                     <div className="mt-2 text-[11px] text-zinc-600 dark:text-zinc-400 font-mono break-all">
                       {snippet}
                     </div>
@@ -394,4 +544,3 @@ export function BadgeToolbox(props: {
     </div>
   );
 }
-
