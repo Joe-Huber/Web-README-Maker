@@ -47,6 +47,11 @@ type Tool = {
       values: string[];
       defaultValue: string;
     };
+    colorInput?: {
+      label: string;
+      placeholder: string;
+      defaultValue: string;
+    };
     link?: {
       label: string;
       placeholder: string;
@@ -96,6 +101,11 @@ function applyToolOptions(template: string, selected: { color?: string; link?: s
     const colorName = selected.color ?? colorOpt.defaultValue;
     const colorValue = COLOR_HEX_MAP[colorName] ?? colorName;
     out = out.replaceAll(colorOpt.placeholder, colorValue);
+  }
+  const colorInputOpt = tool.options?.colorInput;
+  if (colorInputOpt) {
+    const colorValue = selected.color ?? colorInputOpt.defaultValue;
+    out = out.replaceAll(colorInputOpt.placeholder, colorValue.replace(/^#/, ""));
   }
   const linkOpt = tool.options?.link;
   if (linkOpt) {
@@ -232,25 +242,10 @@ const SECTION_DEFS: Array<{
           "[![Profile Views](https://komarev.com/ghpvc/?username=USERNAME&style=for-the-badge&color=COLOR)](https://github.com/USERNAME)",
         requires: ["username"],
         options: {
-          color: {
+          colorInput: {
             label: "Color",
             placeholder: "COLOR",
-            values: [
-              "blueviolet",
-              "pink",
-              "purple",
-              "yellow",
-              "red",
-              "green",
-              "blue",
-              "teal",
-              "magenta",
-              "darkgreen",
-              "lightgreen",
-              "orange",
-              "violet",
-            ],
-            defaultValue: "blueviolet",
+            defaultValue: "8A2BE2",
           },
         },
       },
@@ -261,25 +256,10 @@ const SECTION_DEFS: Array<{
           "[![Followers](https://img.shields.io/github/followers/USERNAME?style=for-the-badge&color=COLOR)](https://github.com/USERNAME?tab=followers)",
         requires: ["username"],
         options: {
-          color: {
+          colorInput: {
             label: "Color",
             placeholder: "COLOR",
-            values: [
-              "blueviolet",
-              "pink",
-              "purple",
-              "yellow",
-              "red",
-              "green",
-              "blue",
-              "teal",
-              "magenta",
-              "darkgreen",
-              "lightgreen",
-              "orange",
-              "violet",
-            ],
-            defaultValue: "blueviolet",
+            defaultValue: "8A2BE2",
           },
         },
       },
@@ -290,25 +270,10 @@ const SECTION_DEFS: Array<{
           "[![Stars](https://img.shields.io/github/stars/USERNAME?style=for-the-badge&color=COLOR)](https://github.com/USERNAME?tab=stars)",
         requires: ["username"],
         options: {
-          color: {
+          colorInput: {
             label: "Color",
             placeholder: "COLOR",
-            values: [
-              "blueviolet",
-              "pink",
-              "purple",
-              "yellow",
-              "red",
-              "green",
-              "blue",
-              "teal",
-              "magenta",
-              "darkgreen",
-              "lightgreen",
-              "orange",
-              "violet",
-            ],
-            defaultValue: "blueviolet",
+            defaultValue: "8A2BE2",
           },
         },
       },
@@ -500,6 +465,38 @@ export function BadgeToolbox(props: {
                             />
                           );
                         })}
+                      </div>
+                    ) : null}
+
+                    {tool.options?.colorInput ? (
+                      <div className="mt-2">
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="h-6 w-6 rounded-md border border-zinc-200/80 dark:border-zinc-800/80"
+                            style={{
+                              backgroundColor: `#${
+                                (selection.color ?? tool.options.colorInput.defaultValue).replace(
+                                  /^#/,
+                                  "",
+                                )
+                              }`,
+                            }}
+                          />
+                          <input
+                            className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/70 dark:bg-zinc-900/70 px-3 py-2 text-xs text-zinc-900 dark:text-zinc-50 placeholder:text-zinc-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-300 dark:focus:ring-zinc-700"
+                            value={selection.color ?? tool.options.colorInput.defaultValue}
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => e.stopPropagation()}
+                            onChange={(e) => {
+                              const next = e.target.value;
+                              setToolOptionSelections((prev) => ({
+                                ...prev,
+                                [tool.id]: { ...(prev[tool.id] ?? {}), color: next },
+                              }));
+                            }}
+                            placeholder="e.g. 8A2BE2"
+                          />
+                        </div>
                       </div>
                     ) : null}
 
