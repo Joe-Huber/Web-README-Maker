@@ -611,7 +611,223 @@ jobs:
       },
     ],
   },
-  { id: "tool-icons", title: "Tool Icons", tools: [] },
+  {
+    id: "tool-icons",
+    title: "Tool Icons",
+    tools: [
+      // Languages
+      {
+        id: "python",
+        label: "Python",
+        template: "![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)",
+      },
+      {
+        id: "javascript",
+        label: "JavaScript",
+        template: "![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)",
+      },
+      {
+        id: "typescript",
+        label: "TypeScript",
+        template: "![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)",
+      },
+      {
+        id: "java",
+        label: "Java",
+        template: "![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)",
+      },
+      {
+        id: "cplusplus",
+        label: "C++",
+        template: "![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)",
+      },
+      {
+        id: "go",
+        label: "Go",
+        template: "![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)",
+      },
+      {
+        id: "rust",
+        label: "Rust",
+        template: "![Rust](https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white)",
+      },
+      {
+        id: "php",
+        label: "PHP",
+        template: "![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)",
+      },
+      {
+        id: "ruby",
+        label: "Ruby",
+        template: "![Ruby](https://img.shields.io/badge/Ruby-CC342D?style=for-the-badge&logo=ruby&logoColor=white)",
+      },
+      {
+        id: "csharp",
+        label: "C#",
+        template: "![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=c-sharp&logoColor=white)",
+      },
+      // Frontend Frameworks/Libraries
+      {
+        id: "react",
+        label: "React",
+        template: "![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)",
+      },
+      {
+        id: "angular",
+        label: "Angular",
+        template: "![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)",
+      },
+      {
+        id: "vuejs",
+        label: "Vue.js",
+        template: "![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)",
+      },
+      {
+        id: "nextjs",
+        label: "Next.js",
+        template: "![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)",
+      },
+      // Backend Frameworks/Libraries
+      {
+        id: "nodejs",
+        label: "Node.js",
+        template: "![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)",
+      },
+      {
+        id: "spring",
+        label: "Spring",
+        template: "![Spring](https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white)",
+      },
+      {
+        id: "django",
+        label: "Django",
+        template: "![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)",
+      },
+      {
+        id: "flask",
+        label: "Flask",
+        template: "![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)",
+      },
+      {
+        id: "dotnet",
+        label: ".NET",
+        template: "![.NET](https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)",
+      },
+      {
+        id: "laravel",
+        label: "Laravel",
+        template: "![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)",
+      },
+      {
+        id: "rubyonrails",
+        label: "Ruby on Rails",
+        template: "![Ruby on Rails](https://img.shields.io/badge/Ruby_on_Rails-CC0000?style=for-the-badge&logo=ruby-on-rails&logoColor=white)",
+      },
+      // Databases
+      {
+        id: "postgresql",
+        label: "PostgreSQL",
+        template: "![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)",
+      },
+      {
+        id: "mysql",
+        label: "MySQL",
+        template: "![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)",
+      },
+      {
+        id: "mongodb",
+        label: "MongoDB",
+        template: "![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)",
+      },
+      {
+        id: "sqlite",
+        label: "SQLite",
+        template: "![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)",
+      },
+      {
+        id: "redis",
+        label: "Redis",
+        template: "![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)",
+      },
+      // Cloud Platforms
+      {
+        id: "aws",
+        label: "AWS",
+        template: "![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)",
+      },
+      {
+        id: "azure",
+        label: "Azure",
+        template: "![Azure](https://img.shields.io/badge/Azure-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white)",
+      },
+      {
+        id: "googlecloud",
+        label: "Google Cloud",
+        template: "![Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)",
+      },
+      // DevOps & Tools
+      {
+        id: "docker",
+        label: "Docker",
+        template: "![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)",
+      },
+      {
+        id: "kubernetes",
+        label: "Kubernetes",
+        template: "![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)",
+      },
+      {
+        id: "git",
+        label: "Git",
+        template: "![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)",
+      },
+      {
+        id: "github",
+        label: "GitHub",
+        template: "![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)",
+      },
+      {
+        id: "gitlab",
+        label: "GitLab",
+        template: "![GitLab](https://img.shields.io/badge/GitLab-FCA121?style=for-the-badge&logo=gitlab&logoColor=white)",
+      },
+      {
+        id: "jenkins",
+        label: "Jenkins",
+        template: "![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)",
+      },
+      {
+        id: "vscode",
+        label: "VS Code",
+        template: "![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)",
+      },
+      {
+        id: "figma",
+        label: "Figma",
+        template: "![Figma](https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white)",
+      },
+      {
+        id: "jira",
+        label: "Jira",
+        template: "![Jira](https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jira&logoColor=white)",
+      },
+      {
+        id: "trello",
+        label: "Trello",
+        template: "![Trello](https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white)",
+      },
+      {
+        id: "slack",
+        label: "Slack",
+        template: "![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)",
+      },
+      {
+        id: "discord",
+        label: "Discord",
+        template: "![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)",
+      },
+    ],
+  },
   { id: "aesthetic", title: "Asthetic Pieces", tools: [] },
 ];
 
@@ -644,7 +860,7 @@ export function BadgeToolbox(props: {
         aria-hidden="true"
       />
 
-      <div className="absolute left-1/2 top-1/2 w-[min(980px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-950 shadow-2xl">
+      <div className="absolute left-1/2 top-1/2 w-[min(980px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl border border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-950 shadow-2xl max-h-[80vh] overflow-y-auto">
         <div className="flex items-start justify-between gap-4 px-5 sm:px-6 py-4 border-b border-zinc-200/80 dark:border-zinc-800/80">
           <div>
             <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">Badge toolbox</div>
@@ -722,7 +938,7 @@ export function BadgeToolbox(props: {
             </div>
           </aside>
 
-          <section className="flex-1 p-5 sm:p-6">
+          <section className="flex-1 p-5 sm:p-6 overflow-y-auto">
             <div className="flex items-center justify-between gap-3">
               <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
                 {activeSection?.title}
