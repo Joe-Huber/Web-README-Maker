@@ -224,7 +224,7 @@ Start using **Web README Maker** today and transform your project documentation.
 
 <div align="center">
 
-**[🚀 Launch Web README Maker](#)** | **[📖 Documentation](#)** | **[💬 Discussions](#)** | **[⭐ Star on GitHub](#)**
+**[🚀 Launch Web README Maker](#)** | **[💬 Discussions](#)** | **[⭐ Star on GitHub](#)**
 
 Made with ??
 
