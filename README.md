@@ -14,6 +14,9 @@
 
 ## 🌟 Features
 
+### Main Editor Interface
+![Web README Maker - Editor View](./docs/readme-images/Base-Default-Image.png)
+
 ### 🎨 **Markdown Editor**
 - **Real-time preview** as you type your markdown
 - **Syntax-highlighted** editor for better readability
@@ -130,8 +133,6 @@ Generate beautiful, customizable badges with just a few clicks:
 
 ## 📸 Screenshots
 
-### Main Editor Interface
-![Web README Maker - Editor View](./docs/readme-images/Base-Default-Image.png)
 
 ### Badge Toolbox
 ![Web README Maker - Badge Toolbox](./docs/readme-images/Badge-Toolbox.png)
