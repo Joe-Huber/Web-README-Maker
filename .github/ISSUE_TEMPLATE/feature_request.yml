@@ -1,0 +1,61 @@
+name: Feature request
+description: Suggest a new capability or workflow improvement for Web README Maker.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for new editor, preview, export, customization, or workflow ideas.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Feature area
+      description: Which part of the product would this improve?
+      options:
+        - Markdown editing
+        - README preview/rendering
+        - Export or copy workflow
+        - Badge toolbox
+        - Repository/profile setup
+        - Themes and customization
+        - Project templates
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: What is hard, slow, missing, or confusing today?
+      placeholder: When creating a README, I want to...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the behavior, UI, or workflow you would like.
+      placeholder: Add a control that...
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or references
+      description: Link to similar tools, screenshots, mockups, or README examples.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Mention workarounds or different approaches, if any.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues and discussions for a similar idea.
+          required: true
+        - label: This request is about Web README Maker rather than a third-party badge service outage.
+          required: true

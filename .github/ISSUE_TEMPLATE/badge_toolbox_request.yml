@@ -1,0 +1,76 @@
+name: Badge toolbox request
+description: Request a new badge, theme, badge provider, or toolbox behavior.
+title: "[Badge]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Badge requests work best when they include the exact badge URL, markdown, or provider documentation.
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: Request type
+      options:
+        - New repository badge
+        - New profile or social badge
+        - New stats card or theme
+        - New color/style option
+        - Badge insertion behavior
+        - Bug in an existing badge
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: badge_name
+    attributes:
+      label: Badge or integration name
+      placeholder: GitHub contributors badge, Discord social badge, etc.
+    validations:
+      required: true
+  - type: input
+    id: provider
+    attributes:
+      label: Badge provider or source
+      description: Examples include shields.io, github-readme-stats, streak-stats, or a custom service.
+      placeholder: https://shields.io/
+  - type: textarea
+    id: snippet
+    attributes:
+      label: Badge markdown or URL
+      description: Paste the exact badge syntax or URL pattern if you have it.
+      render: markdown
+      placeholder: "[![Example](https://...)](https://...)"
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Inputs and placeholders
+      description: List the fields users should fill in, such as username, repo, theme, color, or link target.
+      placeholder: |
+        - USERNAME
+        - REPO-NAME
+        - THEME
+        - COLOR
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case
+      description: Why should this badge be available in the toolbox?
+      placeholder: This helps README authors show...
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional notes
+      description: Include provider docs, screenshots, limitations, or accessibility concerns.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked whether this badge already exists in the toolbox.
+          required: true
+        - label: The badge source is public and safe to include in generated README markdown.
+          required: true

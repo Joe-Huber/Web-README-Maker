@@ -1,0 +1,88 @@
+name: Bug report
+description: Report broken behavior, regressions, or runtime errors in Web README Maker.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve Web README Maker. Clear reproduction details make bugs much faster to fix.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      description: Which part of the app is affected?
+      options:
+        - Markdown editor
+        - README preview/rendering
+        - Badge toolbox
+        - Repository/profile input parsing
+        - Theme or color controls
+        - Responsive layout
+        - Build, install, or deployment
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the bug and the impact it has.
+      placeholder: The preview stops updating after...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the smallest set of steps that triggers the issue.
+      placeholder: |
+        1. Open the app
+        2. Paste this markdown...
+        3. Click...
+        4. See...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: I expected the README preview to...
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      placeholder: Instead, the app...
+    validations:
+      required: true
+  - type: textarea
+    id: markdown
+    attributes:
+      label: Markdown or badge snippet
+      description: If a specific README snippet triggers the bug, paste it here.
+      render: markdown
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Share the browser, OS, device, and app version or commit if known.
+      placeholder: Chrome 126 on macOS, deployed site / local dev, commit SHA...
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or recording
+      description: Drag in screenshots, videos, or console output if they help explain the issue.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues for a similar report.
+          required: true
+        - label: I removed private tokens, repository secrets, and personal data from any snippets.
+          required: true

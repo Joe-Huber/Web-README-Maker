@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a question or discuss an idea
+    url: https://github.com/Joe-Huber/Web-README-Maker/discussions
+    about: Use discussions for open-ended questions, brainstorming, or support requests.
+  - name: Report a security vulnerability
+    url: https://github.com/Joe-Huber/Web-README-Maker/security/advisories/new
+    about: Please report potential vulnerabilities privately instead of opening a public issue.
