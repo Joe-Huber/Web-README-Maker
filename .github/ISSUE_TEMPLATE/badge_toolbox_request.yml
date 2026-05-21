@@ -2,7 +2,7 @@ name: Badge toolbox request
 description: Request a new badge, theme, badge provider, or toolbox behavior.
 title: "[Badge]: "
 labels:
-  - enhancement
+  - New Tool Request
 body:
   - type: markdown
     attributes:

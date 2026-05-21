@@ -2,7 +2,7 @@ name: UX or accessibility issue
 description: Report usability, responsive layout, keyboard, screen reader, or visual accessibility problems.
 title: "[UX/A11y]: "
 labels:
-  - accessibility
+  - UX Change
 body:
   - type: dropdown
     id: category

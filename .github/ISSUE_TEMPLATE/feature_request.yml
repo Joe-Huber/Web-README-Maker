@@ -2,7 +2,7 @@ name: Feature request
 description: Suggest a new capability or workflow improvement for Web README Maker.
 title: "[Feature]: "
 labels:
-  - enhancement
+  - Feature Request
 body:
   - type: markdown
     attributes:
