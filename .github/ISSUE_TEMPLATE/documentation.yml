@@ -1,0 +1,53 @@
+name: Documentation issue
+description: Report missing, confusing, or outdated project documentation.
+title: "[Docs]: "
+labels:
+  - documentation
+body:
+  - type: dropdown
+    id: docs_area
+    attributes:
+      label: Documentation area
+      options:
+        - README overview
+        - Setup or local development
+        - Feature description
+        - Screenshots or examples
+        - Contributing guidance
+        - Deployment notes
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Location
+      description: Link to the section, file, heading, or screenshot that needs attention.
+      placeholder: README.md#badge-toolbox-guide
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What should change?
+      description: Explain what is missing, stale, unclear, or incorrect.
+      placeholder: The README says...
+    validations:
+      required: true
+  - type: textarea
+    id: suggested_change
+    attributes:
+      label: Suggested wording or fix
+      description: Share the replacement text, link, or example if you have one.
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add screenshots, references, or details that would help update the docs.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I checked the latest README and open issues before filing this.
+          required: true

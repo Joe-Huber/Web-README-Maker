@@ -1,0 +1,68 @@
+name: UX or accessibility issue
+description: Report usability, responsive layout, keyboard, screen reader, or visual accessibility problems.
+title: "[UX/A11y]: "
+labels:
+  - UX Change
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Keyboard navigation
+        - Screen reader or ARIA
+        - Focus state
+        - Color contrast
+        - Responsive layout
+        - Touch interaction
+        - Motion or animation
+        - Visual clarity
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What is the issue?
+      description: Describe what makes the interface hard to use or inaccessible.
+      placeholder: On mobile, the preview panel...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps or scenario
+      description: Explain how to reach the issue.
+      placeholder: |
+        1. Open the app at...
+        2. Use only the keyboard to...
+        3. Notice...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected experience
+      description: What should happen instead?
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Device and assistive technology
+      description: Include browser, OS, viewport size, screen reader, keyboard, or touch device details.
+      placeholder: Safari on iPhone 15, NVDA with Firefox, Chrome desktop at 1280x720...
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or recording
+      description: Add screenshots, recordings, or audit output if helpful.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I searched existing issues for similar usability or accessibility reports.
+          required: true
