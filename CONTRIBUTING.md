@@ -131,12 +131,12 @@ For markdown rendering changes, test tables, task lists, strikethrough, links, i
 
 ## Commit Messages
 
-Use short, descriptive commit messages in the imperative mood:
-
+Try to tag your commit messages following the pattern:
 ```text
-Add badge toolbox issue template
-Fix README preview table alignment
-Improve mobile editor layout
+docs: update badge toolbox instructions
+bug fix: correct markdown rendering of task lists
+feat: add new GitHub profile card badge
+chore: update dependencies
 ```
 
 ## Review Expectations
